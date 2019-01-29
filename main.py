@@ -24,6 +24,7 @@ def game():
         if keys_pressed[pygame.K_w]:player2.jerk(THRUST_POWER)
         if keys_pressed[pygame.K_d]:player2.rotate(ROTATIONAL_SPEED)
         if keys_pressed[pygame.K_a]:player2.rotate(-ROTATIONAL_SPEED)
+        
 
         for moving_object in Moving_Object.moving_object_list:
             if abs(moving_object.velocity) > CRUISING_SPEED:
@@ -37,7 +38,6 @@ def game():
                 print(moving_object.fuel)
                 if moving_object.fuel <= 0:
                     moving_object.die()
-                moving_object.burn_fuel()
             
         pygame.display.update()
 

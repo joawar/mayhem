@@ -1,6 +1,7 @@
 from config import *
 from precode2 import *
 from moving_object import Moving_Object
+from bullet import Bullet
 
 class Spaceship(Moving_Object):
     def __init__(self, screen, pos, velocity, fuel, color):
@@ -19,4 +20,4 @@ class Spaceship(Moving_Object):
                                                       [self.point3.x, self.point3.y]])
     
     def shoot(self):
-        raise Exception("Not implemented yet")
+        bullet = Bullet(self.screen, self.pos, self.direction)

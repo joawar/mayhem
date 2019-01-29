@@ -31,12 +31,13 @@ class Moving_Object(Visible_Object):
     
     def jerk(self, jerk_power):
         self.acceleration += self.direction*jerk_power
+        self.burn_fuel()
     
     def accelerate(self):
         self.velocity += self.acceleration
         if abs(self.velocity) > MAX_SPEED:
             self.velocity = self.velocity.normalized() * MAX_SPEED
-    
+
     def move(self):
         self.pos += self.velocity
         print(abs(self.velocity))
@@ -53,6 +54,7 @@ class Moving_Object(Visible_Object):
     def die(self):
         self.moving_object_list.remove(self)
 
-
+    def burn_fuel(self):
+        pass
 
 
