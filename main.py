@@ -19,11 +19,15 @@ def game():
 
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_UP]:player1.jerk(THRUST_POWER)
-        if keys_pressed[pygame.K_RIGHT]:player1.rotate(ROTATIONAL_SPEED)
-        if keys_pressed[pygame.K_LEFT]:player1.rotate(-ROTATIONAL_SPEED)
+        if keys_pressed[pygame.K_RIGHT]:player1.rotate(ANGULAR_SPEED)
+        if keys_pressed[pygame.K_LEFT]:player1.rotate(-ANGULAR_SPEED)
         if keys_pressed[pygame.K_w]:player2.jerk(THRUST_POWER)
-        if keys_pressed[pygame.K_d]:player2.rotate(ROTATIONAL_SPEED)
-        if keys_pressed[pygame.K_a]:player2.rotate(-ROTATIONAL_SPEED)
+        if keys_pressed[pygame.K_d]:player2.rotate(ANGULAR_SPEED)
+        if keys_pressed[pygame.K_a]:player2.rotate(-ANGULAR_SPEED)
+        if keys_pressed[pygame.K_e]:player2.fire()
+        if keys_pressed[pygame.K_MINUS]:player1.fire()
+        if keys_pressed[pygame.K_s]:player2.brake()
+        if keys_pressed[pygame.K_DOWN]:player1.brake()
         
 
         for moving_object in Moving_Object.moving_object_list:
@@ -38,7 +42,13 @@ def game():
                 print(moving_object.fuel)
                 if moving_object.fuel <= 0:
                     moving_object.die()
-            
+                if moving_object.alive:
+                    moving_object.time_spent_dead = 0
+                else:
+                    moving_object.time_spent_dead += time_passed_seconds
+                    if moving_object.time_spent_dead >= RESPAWN_TIME:
+                        moving_object.respawn()
+                        
         pygame.display.update()
 
 
