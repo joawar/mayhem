@@ -12,6 +12,7 @@ class Moving_Object(Visible_Object):
         self.acceleration = acceleration
         self.screen = screen
         self.moving_object_list.append(self)
+        self.alive = True
         
     
     def border_hit_detection(self):
@@ -53,6 +54,7 @@ class Moving_Object(Visible_Object):
     
     def die(self):
         self.moving_object_list.remove(self)
+        self.alive = False
 
     def burn_fuel(self):
         pass
