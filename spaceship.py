@@ -7,9 +7,11 @@ class Spaceship(Moving_Object):
     def __init__(self, screen, pos, velocity, fuel, color):
         super().__init__(screen, pos, velocity, color)
         self.fuel = fuel
+        self.time_spent_dead = 0
     
     def burn_fuel(self):
-        self.fuel -= FUEL_CONSUMPTION_PER_FRAME
+        if self.alive:
+            self.fuel -= FUEL_CONSUMPTION
 
     def draw(self):
         self.point1 = self.pos
@@ -19,5 +21,11 @@ class Spaceship(Moving_Object):
                                                       [self.point2.x, self.point2.y], 
                                                       [self.point3.x, self.point3.y]])
     
-    def shoot(self):
-        bullet = Bullet(self.screen, self.pos, self.direction)
+    def fire(self):
+        if self.alive:
+            bullet = Bullet(self.screen, self.pos, self.direction)
+    
+    def respawn(self):
+        self.alive = True
+        self.fuel = START_FUEL
+        self.moving_object_list.append(self)
