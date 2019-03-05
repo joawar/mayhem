@@ -8,13 +8,12 @@ class Game():
         self.screen = pygame.display.set_mode(SCREEN_RES)
         self.background = BACKGROUND_IMAGE.convert_alpha()
         self.clock = pygame.time.Clock()
-        self.ship1 = Spaceship(PLAYER_1_START_POS, PLAYER_1_START_VELOCITY, START_FUEL, PLAYER_1_COLOR, P1_CONTROLS,
+        self.ship1 = Spaceship(PLAYER_1_START_POS, PLAYER_1_START_VELOCITY, START_FUEL, P1_CONTROLS,
                                PLAYER_1_BOOST_IMAGE, "player1")
-        self.ship2 = Spaceship(PLAYER_2_START_POS, PLAYER_2_START_VELOCITY, START_FUEL, PLAYER_2_COLOR, P2_CONTROLS,
+        self.ship2 = Spaceship(PLAYER_2_START_POS, PLAYER_2_START_VELOCITY, START_FUEL, P2_CONTROLS,
                                PLAYER_2_BOOST_IMAGE, "player2")
         self.update_loop()
         
-
     def update_loop(self):
         while True:
             for event in pygame.event.get():

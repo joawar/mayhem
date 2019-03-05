@@ -5,12 +5,13 @@ from moving_object import Moving_Object
 from bullet import Bullet
 
 class Spaceship(Moving_Object):
-    def __init__(self,  pos, velocity, fuel, color, controls, image, name):
-        super().__init__(pos, velocity, color, image)
+    def __init__(self,  pos, velocity, fuel, controls, image, name):
+        super().__init__(pos, velocity, image)
         self.fuel = fuel
         self.time_spent_dead = 0
         self.controls = controls
         self.name = name
+        self.time_since_last_shot = 0
     
     def update(self):
         self.acceleration = copy_Vector2(GRAVITY)
@@ -43,9 +44,9 @@ class Spaceship(Moving_Object):
     def reverse(self):
         self.acceleration -= self.direction*REVERSE_STRENGTH
     
-    def fire(self):
+    def shoot(self):
         if self.alive:
-            bullet = Bullet(self.screen, self.pos, self.direction)
+            bullet = Bullet(self.pos, self.direction)
     
     def respawn(self):
         self.alive = True

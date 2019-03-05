@@ -5,9 +5,8 @@ from visible_object import Visible_Object
 
 class Moving_Object(Visible_Object):
     moving_object_group = pygame.sprite.Group()
-    def __init__(self, pos, velocity, color, image, acceleration = Vector2(0,0)):
+    def __init__(self, pos, velocity, image, acceleration = Vector2(0,0)):
         super().__init__(pos, image)
-        self.color = color
         self.velocity = velocity
         self.direction = velocity.normalize()
         self.acceleration = copy_Vector2(GRAVITY)
