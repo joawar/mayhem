@@ -1,4 +1,5 @@
-from precode2 import Vector2D
+from vector import Vector2
+import pygame
 
 SCREEN_WIDTH = 1400
 SCREEN_HEIGHT = 700
@@ -13,27 +14,34 @@ YELLOW = (255, 255, 0)
 SPACESHIP_ANGLE = 20
 SPACESHIP_SIZE = 40
 
-PLAYER_1_START_POS = Vector2D(610, 450)
-PLAYER_2_START_POS = Vector2D(30, 30)
+PLAYER_1_START_POS = Vector2(610, 250)
+PLAYER_2_START_POS = Vector2(30, 30)
+
+BACKGROUND_IMAGE_FNAME = "images/background.jpg"
+PLAYER_1_BOOST_IMAGE_FNAME = "images/player1_boost.png"
+PLAYER_2_BOOST_IMAGE_FNAME = "images/player2_boost.png"
+PLAYER_1_BOOST_IMAGE = pygame.image.load(PLAYER_1_BOOST_IMAGE_FNAME)
+PLAYER_2_BOOST_IMAGE = pygame.image.load(PLAYER_2_BOOST_IMAGE_FNAME)
+BACKGROUND_IMAGE = pygame.image.load(BACKGROUND_IMAGE_FNAME)
+BACKGROUND_IMAGE = pygame.transform.scale(BACKGROUND_IMAGE, SCREEN_RES)
 
 PLAYER_1_COLOR = RED
 PLAYER_2_COLOR = BLUE
-PLAYER_1_START_VELOCITY = Vector2D(-1,0)
-PLAYER_2_START_VELOCITY = Vector2D(1,0)
+PLAYER_1_START_VELOCITY = Vector2(0,-1) # can't have (0,0) because it will give an error when trying to normalize
+PLAYER_2_START_VELOCITY = Vector2(0,-1)
 
-
-START_FUEL = 1000
+START_FUEL = 100000000
 FUEL_CONSUMPTION = 10
 
-THRUST_POWER = 3
+THRUST_STRENGTH = 0.5
 ANGULAR_SPEED = 6
 
-GRAVITY = Vector2D(0, 0.1)
+GRAVITY = Vector2(0, 0.1)
 
 MAX_SPEED = 10
 CRUISING_SPEED = 6
 
-BRAKEFORCE = 1
+REVERSE_STRENGTH = 1
 
 BULLET_SPEED = 15
 BULLET_COLOR = YELLOW
@@ -41,3 +49,5 @@ BULLET_RADIUS = 2
 
 RESPAWN_TIME = 1 # seconds
 
+P1_CONTROLS = [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN]
+P2_CONTROLS = [pygame.K_d, pygame.K_a, pygame.K_w, pygame.K_s]

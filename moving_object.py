@@ -1,62 +1,50 @@
-from precode2 import *
+from vector import copy_Vector2
+from pygame import Vector2
 from config import *
 from visible_object import Visible_Object
 
 class Moving_Object(Visible_Object):
-    moving_object_list = []
-    def __init__(self, screen, pos, velocity, color, acceleration = GRAVITY):
-        super().__init__(pos)
+    moving_object_group = pygame.sprite.Group()
+    def __init__(self, pos, velocity, color, image, acceleration = Vector2(0,0)):
+        super().__init__(pos, image)
         self.color = color
         self.velocity = velocity
-        self.direction = velocity.normalized()
-        self.acceleration = acceleration
-        self.screen = screen
-        self.moving_object_list.append(self)
+        self.direction = velocity.normalize()
+        self.acceleration = copy_Vector2(GRAVITY)
         self.alive = True
+        self.moving_object_group.add(self)
         
+    def update(self):
+        self.border_hit_detection()
+        self.accelerate()
+        self.move()
     
     def border_hit_detection(self):
-        screen_width = self.screen.get_width()
-        screen_height = self.screen.get_height()
         x = self.pos.x
         y = self.pos.y
         if x <= 0:
-            self.die()
-        if x >= screen_width:
-            self.die()
+            self.kill()
+        if x >= SCREEN_WIDTH:
+            self.kill()
         if y <= 0:
-            self.die()
-        if y >= screen_height:
-            self.die()
-    
-    
-    def jerk(self, jerk_power):
-        self.acceleration += self.direction*jerk_power
-        self.burn_fuel()
+            self.kill()
+        if y >= SCREEN_HEIGHT:
+            self.kill()
     
     def accelerate(self):
         self.velocity += self.acceleration
-        if abs(self.velocity) > MAX_SPEED:
-            self.velocity = self.velocity.normalized() * MAX_SPEED
+        if self.velocity.length() > MAX_SPEED:
+            self.velocity = self.velocity.normalize() * MAX_SPEED
 
     def move(self):
         self.pos += self.velocity
-        print(abs(self.velocity))
-        
-    def draw(self):
-        raise Exception("Not implemented yet")
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
 
-    def rotate(self, angle):
+    def rotate(self, angle = 0):
         self.direction = self.direction.rotate(angle)
-    
-    def brake(self):
-        self.acceleration -= self.velocity.normalized()*BRAKEFORCE
-    
-    def die(self):
-        self.moving_object_list.remove(self)
-        self.alive = False
+        new_angle = self.direction.angle_to(Vector2(0,-1))
+        self.image = pygame.transform.rotate(self.original_image, new_angle)
 
     def burn_fuel(self):
-        pass
-
-
+        raise Exception("burn_fuel has not been implemented")

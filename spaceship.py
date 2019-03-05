@@ -1,25 +1,47 @@
 from config import *
-from precode2 import *
+from vector import copy_Vector2
+from pygame import Vector2
 from moving_object import Moving_Object
 from bullet import Bullet
 
 class Spaceship(Moving_Object):
-    def __init__(self, screen, pos, velocity, fuel, color):
-        super().__init__(screen, pos, velocity, color)
+    def __init__(self,  pos, velocity, fuel, color, controls, image, name):
+        super().__init__(pos, velocity, color, image)
         self.fuel = fuel
         self.time_spent_dead = 0
+        self.controls = controls
+        self.name = name
     
+    def update(self):
+        self.acceleration = copy_Vector2(GRAVITY)
+        self.handle_inputs()
+        super().update()
+
+    def handle_inputs(self):
+        inputs = pygame.key.get_pressed()
+        rotate_clockwise = inputs[self.controls[0]]
+        rotate_counterclockwise = inputs[self.controls[1]]
+        thrust = inputs[self.controls[2]]
+        reverse = inputs[self.controls[3]]
+        if rotate_clockwise:
+            self.rotate(ANGULAR_SPEED)
+        if rotate_counterclockwise:
+            self.rotate(-ANGULAR_SPEED)
+        if thrust:
+            self.thrust()
+        if reverse:
+            self.reverse()
+
+    def thrust(self):
+        self.acceleration += self.direction*THRUST_STRENGTH
+        self.burn_fuel()
+
     def burn_fuel(self):
         if self.alive:
             self.fuel -= FUEL_CONSUMPTION
 
-    def draw(self):
-        self.point1 = self.pos
-        self.point2 = self.pos + self.direction.rotate(180 + SPACESHIP_ANGLE)*SPACESHIP_SIZE
-        self.point3 = self.pos + self.direction.rotate(180 - SPACESHIP_ANGLE)*SPACESHIP_SIZE
-        pygame.draw.polygon(self.screen, self.color, [[self.point1.x, self.point1.y], 
-                                                      [self.point2.x, self.point2.y], 
-                                                      [self.point3.x, self.point3.y]])
+    def reverse(self):
+        self.acceleration -= self.direction*REVERSE_STRENGTH
     
     def fire(self):
         if self.alive:

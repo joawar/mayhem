@@ -1,12 +1,10 @@
-from precode2 import *
+from visible_object import Visible_Object
 
-class Obstacle():
-    def __init__(self, screen, pos, color, width, length):
+class Obstacle(Visible_Object):
+    def __init__(self, screen, pos, color, width, length, image):
+        super().__init__(pos, image)
         self.pos = pos
         self.color = color
         self.width = width
         self.length = length
         self.screen = screen
-
-    def draw(self):
-        pygame.draw.rect(self.screen, self.color, (self.pos.x, self.pos.y, self.width, self.height))
