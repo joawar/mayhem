@@ -24,7 +24,23 @@ class Game():
             self.screen.blit(self.background, (0,0))
             Visible_Object.visible_object_group.draw(self.screen)
             Moving_Object.moving_object_group.update()
+            self.detect_hits()
             pygame.display.update()
+
+    def detect_hits(self):
+        """Deals with all collisions except wall collision"""
+        pygame.sprite.groupcollide(Visible_Object.moving_object_group, Visible_Object.obstacle_group, True, False)
+        spaceships_hit_by_bullet = pygame.sprite.groupcollide(Visible_Object.spaceship_group, Visible_Object.bullet_group, False, False)
+        self.update_spaceships_health(spaceships_hit_by_bullet)
+        if pygame.sprite.collide_rect(self.ship1, self.ship2):
+            self.ship1.kill()
+            self.ship2.kill()
+    
+    def update_spaceships_health(self, spaceships_hit):
+        for spaceship in spaceships_hit:
+            spaceship.health -= BULLET_DAMAGE
+            if spaceship.health <= 0:
+                spaceship.kill()
 
 if __name__ == '__main__':
     game = Game()
